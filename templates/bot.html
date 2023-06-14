@@ -1,0 +1,188 @@
+{% extends "index.html" %} {% block content %}
+
+<style>
+  .contain {
+    width: 800px;
+    border: solid 2px black;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+    width: 50%;
+  }
+  .scroll{
+    height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transform: rotate(180deg);
+  direction: rtl;
+  text-align: left;
+  }
+  .mess {
+    overflow: hidden;
+    transform: rotate(180deg);
+  }
+  .textbox {
+    scroll-snap-align: end;
+  }
+
+  .mainn {
+    color: white;
+    background-color: #16a083;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+  }
+
+  form input {
+    color: rgb(0, 0, 0);
+    display: flex;
+    width: 80%;
+    height: 35px;
+    margin: 0 50px 20px 50px;
+    border-radius: 5px;
+  }
+  .message {
+    margin-bottom: 10px;
+  }
+  .message .messageText {
+    text-align: left;
+    font-size: 1.3rem;
+    color: #000000;
+    border: solid 1px rgb(0, 0, 0);
+  }
+  .message.sol {
+    text-align: left;
+  }
+  .message.sag {
+    text-align: right;
+  }
+  .message .resim {
+    background: #ffffff00 none no-repeat center;
+    vertical-align: text-top;
+    background-size: cover;
+    display: inline-block;
+    position: relative;
+    color: #000000;
+    height: 40px;
+    width: 40px;
+  }
+  .message .messageText {
+    background-color: #ffffff;
+    vertical-align: text-top;
+    display: inline-block;
+    position: relative;
+    line-height: 20px;
+    max-width: 400px;
+    color: #000000;
+    padding: 10px;
+  }
+
+  .message.mtLine.sol .messageText {
+    border: solid 1px rgb(198, 198, 198);
+    border-radius: 0 5px 5px 0;
+    margin: 10px;
+    margin-left: 0px;
+  }
+  .message.mtLine.sag .messageText {
+    border: solid 1px rgb(197, 197, 197);
+    border-radius: 5px 0 0 5px;
+    margin: 10px;
+    margin-right: 0px;
+  }
+  .message .messageText:before {
+    border-color: transparent #ffffff;
+    border-style: solid;
+    position: absolute;
+    border-width: 0;
+    display: block;
+    content: "";
+    z-index: 1;
+  }
+
+  .message .messageText:after {
+    content: attr(data-time);
+    color: rgb(255, 255, 255);
+    position: absolute;
+    line-height: 20px;
+    display: block;
+    bottom: 2px;
+    z-index: 1;
+  }
+  .message.sol .messageText:after {
+    margin-left: 5px;
+    left: 100%;
+  }
+  .message.sag .messageText:after {
+    margin-right: 5px;
+    right: 100%;
+  }
+</style>
+
+<section class="showcase-area" id="showcase">
+  <div class="showcase-container">
+    <div class="contain">
+      <div class="mainn">
+        <h1>BiteBot</h1>
+      </div>
+      <div class="scroll">
+
+        <div id="container" class="mess">
+
+          <div class="message sol mtLine">
+            
+            <div class="messageText">
+              Heyy, Are you feeling hungry? You can ask me anything and I will
+              get you!!!
+            </div>
+            <div
+              class="resim"
+              style="
+                background-image: url('https://i.postimg.cc/Df67cGLX/download.png');
+              "
+            ></div>
+          </div>
+
+          {% for convo in conversations %}
+
+          <div class="message sag mtLine">
+            <div
+            class="resim"
+            style="
+              background-image: url('https://i.postimg.cc/5NzYK6tS/219986.png');
+            "
+          ></div>
+            <div class="messageText">{{ convo.user }}</div>
+           
+          </div>
+
+          <div class="message sol mtLine">
+            
+            <div class="messageText">{{ convo.bot }}</div>
+            <div
+              class="resim"
+              style="
+                background-image: url('https://i.postimg.cc/Df67cGLX/download.png');
+              "
+            ></div>
+          </div>
+
+          {% endfor %}
+        </div>
+      </div>
+      <div id="snap" class="textbox">
+        <form method="post" action="{{ url_for('bot')}}">
+          <input
+            type="text"
+            placeholder="Enter your message"
+            name="user_input"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content%}
